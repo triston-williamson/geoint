@@ -64,7 +64,7 @@ def _in_window(feats: list[dict], start: int | None, end: int | None) -> list[di
     return [f for f in feats if f["properties"].get("epoch") and lo <= f["properties"]["epoch"] <= hi]
 
 
-# ---------- feeds ----------
+# The feeds section handles fetching and returning data from various sources like fires, quakes, and news.
 
 async def get_fires(days: int):
     return await _load("fires", f"fires:{days}", firms.fetch, days)
@@ -104,7 +104,7 @@ async def infra(kind: str = "power", bbox: str = Query(..., description="west,so
     return collection(feats, **meta)
 
 
-# ---------- analysis ----------
+# The analysis section handles performing spatial analysis on the collected feed data, such as hotspot detection.
 
 @app.get("/api/hotspots")
 async def hotspot_analysis(
@@ -170,7 +170,7 @@ async def feed_status():
     return {"firms_key": bool(config.FIRMS_MAP_KEY), "feeds": status}
 
 
-# ---------- front end ----------
+# The front end section handles serving the main HTML page and static assets like JavaScript and CSS.
 
 @app.get("/")
 async def index():

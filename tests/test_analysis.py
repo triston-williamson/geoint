@@ -1,4 +1,4 @@
-"""Offline tests for the spatial analysis (no network needed)."""
+"""Offline tests for the spatial analysis."""
 from app.analysis import exposure, hotspots
 from app.feeds import feature
 

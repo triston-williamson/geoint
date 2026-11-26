@@ -1,4 +1,4 @@
-"""Tiny in-memory TTL cache so we don't hammer the public data providers."""
+"""Small in-memory TTL cache so we don't overload / hammer the public data providers."""
 import asyncio
 import time
 from typing import Any, Awaitable, Callable

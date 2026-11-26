@@ -10,7 +10,7 @@ EARTH_KM = 6371.0088
 
 
 def _coords_rad(features: list[dict]) -> np.ndarray:
-    # BallTree / DBSCAN haversine metric expects [lat, lon] in radians
+    # BallTree / DBSCAN haversine metric expects the [lat, lon] in radians
     pts = [(f["geometry"]["coordinates"][1], f["geometry"]["coordinates"][0]) for f in features]
     return np.radians(np.array(pts, dtype=float)).reshape(-1, 2)
 

@@ -1,7 +1,7 @@
 # GEOINT Event Fusion Dashboard
 
-A map that fuses open-source event feeds, finds multi-source hotspots, and checks which
-critical infrastructure sits near active hazards.
+A map that combines open-source event feeds, finds multi-source hotspots, and checks which
+critical infrastructure sits near the active hazards.
 
 | Feed | Source | Key needed? |
 |---|---|---|
@@ -30,13 +30,12 @@ Open the folder in VS Code (`code ~/geoint`). When asked, pick the `.venv` inter
 
 ## Using it
 
-1. **Data range:** choose how far back to load fires/quakes (24 h to 7 days) and news (1 to 12 h), then press *Load data*.
-2. **Timeline:** drag the slider to move through time. Set *Window* to e.g. 6 h and press *Play* to animate.
+1. **Data range:** you can choose how far back to load fires/quakes (24 h to 7 days) and news (1 to 12 h), then press the *Load data*.
+2. **Timeline:** drag the slider to move through time. Set *Window* to (for example) 6 h and press *Play* to animate the selected timeframe.
 3. **Hotspots:** clusters events from every feed (DBSCAN, haversine distance) within the current time window.
    Score = (distinct feeds)² × log(1 + events) × (1 + mean severity), so places where fires *and* news *and*
-   quakes coincide rank above a large single-source cluster. Click a result to zoom.
-4. **Infrastructure exposure:** zoom to a region (≤ about 5°×5°), pick a site type and radius, and press
-   *Analyze current view*. Sites with hazards inside the radius get a red ring. Overpass queries can take up to about a minute.
+   quakes coincide rank above a large single-source cluster. Click a result to zoom in and access the news article / event.
+4. **Infrastructure exposure:** zoom to a region (≤ about 5°×5° or a little less than a states size), pick a site type and radius, and press *Analyze current view*. Sites with hazards inside the radius get a red ring. Overpass queries can take up to about a minute to load the data / information.
 
 Click any point for details and a link to the source record.
 

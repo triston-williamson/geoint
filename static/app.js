@@ -1,4 +1,4 @@
-/* GEOINT Event Fusion: front end (MapLibre GL, no build step). */
+/* GEOINT Event Fusion: front end (MapLibre GL). */
 "use strict";
 
 const $ = (id) => document.getElementById(id);
@@ -16,7 +16,7 @@ const OVERLAYS = {
 
 const state = { data: {}, minEpoch: null, maxEpoch: null, playTimer: null };
 
-// ---------- helpers ----------
+// The helpers 
 function toast(msg, isError = false, ms = 3500) {
   const t = $("toast");
   t.textContent = msg;
@@ -41,7 +41,7 @@ async function getJSON(url) {
 }
 const empty = () => ({ type: "FeatureCollection", features: [] });
 
-// ---------- map ----------
+// The map 
 const map = new maplibregl.Map({
   container: "map",
   style: "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json",
@@ -49,7 +49,7 @@ const map = new maplibregl.Map({
   zoom: 1.6,
   attributionControl: { compact: true },
 });
-// keep the canvas matched to its container (window resizes, late layout)
+// This will keep the canvas matched to its container (window resizes, late layout)
 new ResizeObserver(() => map.resize()).observe($("map"));
 map.addControl(new maplibregl.NavigationControl(), "top-right");
 map.addControl(new maplibregl.ScaleControl({ unit: "metric" }), "bottom-right");
@@ -121,7 +121,7 @@ map.on("load", () => {
   setInterval(refreshStatus, 30000);
 });
 
-// ---------- popups ----------
+// The popups section handles displaying information about map features when clicked.
 function showPopup(f, lngLat) {
   const p = f.properties;
   const rows = [];
@@ -156,7 +156,7 @@ function showPopup(f, lngLat) {
     .addTo(map);
 }
 
-// ---------- layer list ----------
+// The layer list section handles building and updating the list of map layers and their visibility.
 function buildLayerList() {
   const ul = $("layers");
   ul.innerHTML = "";
@@ -179,7 +179,7 @@ function setCount(id, n) {
   if (el) el.textContent = n == null ? "–" : n.toLocaleString();
 }
 
-// ---------- loading feeds ----------
+// The loading feeds section handles fetching and updating the map with data from various feeds.
 function params() {
   return {
     days: $("days").value,
@@ -233,7 +233,7 @@ async function refreshStatus() {
   } catch { /* server restarting */ }
 }
 
-// ---------- timeline ----------
+// The timeline section handles building and updating the timeline based on the loaded feed data.
 function resetTimeline() {
   let lo = Infinity, hi = -Infinity;
   for (const name of Object.keys(FEEDS)) {
@@ -289,7 +289,7 @@ $("play").addEventListener("click", () => {
   }, 120);
 });
 
-// ---------- hotspots ----------
+// The hotspots section handles finding and displaying clusters of events on the map.
 const mapReady = () => !!map.getSource("hotspots") || (toast("Map is still loading, try again in a moment", true), false);
 
 $("run-hotspots").addEventListener("click", async () => {
@@ -353,7 +353,7 @@ function renderHotspots(list) {
   });
 }
 
-// ---------- infrastructure exposure ----------
+// The infrastructure exposure section handles analyzing and displaying the exposure of infrastructure sites to various hazards.
 $("run-exposure").addEventListener("click", async () => {
   if (!mapReady()) return;
   const btn = $("run-exposure");
