@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GEOINT Event Fusion</title>
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" />
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <aside id="sidebar">
+    <header>
+      <h1>GEOINT Event Fusion</h1>
+      <div id="feed-status" class="status-row"></div>
+    </header>
+
+    <section>
+      <h2>Data range</h2>
+      <div class="grid2">
+        <label>Fires &amp; quakes
+          <select id="days">
+            <option value="1" selected>Last 24 h</option>
+            <option value="2">Last 48 h</option>
+            <option value="7">Last 7 days</option>
+          </select>
+        </label>
+        <label>News events
+          <select id="news-hours">
+            <option value="1">Last 1 h</option>
+            <option value="3" selected>Last 3 h</option>
+            <option value="6">Last 6 h</option>
+            <option value="12">Last 12 h</option>
+          </select>
+        </label>
+        <label>Min. magnitude
+          <input id="min-mag" type="number" value="2.5" min="0" max="9" step="0.5" />
+        </label>
+        <label class="check"><input id="conflict-only" type="checkbox" checked /> Conflict news only</label>
+      </div>
+      <button id="reload" class="primary">Load data</button>
+    </section>
+
+    <section>
+      <h2>Layers</h2>
+      <ul id="layers" class="layers"></ul>
+    </section>
+
+    <section>
+      <h2>Timeline <span id="time-label" class="muted"></span></h2>
+      <input id="time-end" type="range" min="0" max="1000" value="1000" />
+      <div class="row">
+        <label>Window
+          <select id="time-window">
+            <option value="0" selected>Everything up to slider</option>
+            <option value="1">1 h before slider</option>
+            <option value="6">6 h before slider</option>
+            <option value="12">12 h before slider</option>
+            <option value="24">24 h before slider</option>
+          </select>
+        </label>
+        <button id="play" title="Animate the timeline">▶ Play</button>
+      </div>
+    </section>
+
+    <section>
+      <h2>Hotspots</h2>
+      <p class="hint">Clusters events from all feeds. Places where <em>several</em> feeds overlap rank highest.</p>
+      <div class="grid2">
+        <label>Cluster radius (km) <input id="eps" type="number" value="50" min="5" max="500" /></label>
+        <label>Min. events <input id="min-samples" type="number" value="5" min="2" max="200" /></label>
+      </div>
+      <button id="run-hotspots">Find hotspots in time window</button>
+      <ol id="hotspot-list" class="results"></ol>
+    </section>
+
+    <section>
+      <h2>Infrastructure exposure</h2>
+      <p class="hint">Finds OpenStreetMap sites in the current view that are near fires or earthquakes. Zoom in to roughly a state or region first.</p>
+      <div class="grid2">
+        <label>Site type
+          <select id="infra-kind">
+            <option value="power">Power plants &amp; substations</option>
+            <option value="health">Hospitals</option>
+            <option value="airports">Airports</option>
+            <option value="ports">Ports</option>
+            <option value="fuel">Fuel &amp; refineries</option>
+          </select>
+        </label>
+        <label>Radius (km) <input id="radius" type="number" value="10" min="1" max="200" /></label>
+        <label class="check"><input id="hz-fires" type="checkbox" checked /> Fires</label>
+        <label class="check"><input id="hz-quakes" type="checkbox" checked /> Earthquakes</label>
+      </div>
+      <button id="run-exposure">Analyze current view</button>
+      <div id="exposure-summary" class="muted"></div>
+      <ol id="exposure-list" class="results"></ol>
+    </section>
+
+    <footer class="muted">
+      Data: NASA FIRMS · USGS · GDELT Project · © OpenStreetMap contributors
+    </footer>
+  </aside>
+
+  <main id="map"></main>
+  <div id="toast" role="status"></div>
+
+  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+  <script src="/static/app.js"></script>
+</body>
+</html>
